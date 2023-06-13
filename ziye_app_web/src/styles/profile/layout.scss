@@ -1,0 +1,159 @@
+$header_height: 64px;
+$sider_width: 200px;
+
+.user-layout {
+  width: 100%;
+  height: 100vh;
+
+  .layout-header {
+    width: 100%;
+    height: $header_height;
+    z-index: 0;
+    position: relative;
+    background-color: #409eff;
+    border-bottom: 1px solid #cdd0d6;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 16px;
+    transition: height 0.4s;
+
+    .login_card {
+      width: auto;
+      white-space: nowrap;
+      transition: all 0.4s;
+      .ant-btn {
+        margin: 0px 16px;
+      }
+    }
+  }
+
+  .ant-layout-content {
+    width: 100%;
+    height: calc(100% - $header_height);
+    position: relative;
+
+    .menu_foled {
+      right: -40px;
+      top: 64px;
+      padding: 8px;
+      border-top-left-radius: 50%;
+      border-bottom-left-radius: 50%;
+      background-color: #e6e8eb;
+      position: fixed;
+      transition: right 0.4s;
+      user-select: none;
+
+      &:hover {
+        color: #409eff;
+      }
+    }
+
+    .layout-sider {
+      left: 0px;
+      top: 0px;
+      width: $sider_width;
+      height: 100%;
+      z-index: 11;
+      position: absolute;
+      border-right: 1px solid #cdd0d6;
+      background-color: #fff;
+      padding: 16px 0px;
+      transition: width 0.4s, opacity 0.4s;
+      user-select: none;
+    }
+
+    .layout-main {
+      left: $sider_width;
+      top: 0px;
+      width: calc(100% - $sider_width);
+      height: 100%;
+      position: absolute;
+      padding: 24px;
+      transition: left 0.4s, width 0.4s;
+      overflow: auto;
+    }
+  }
+}
+
+$width-small: 375px;
+$width-medium: 768px;
+$width-default: 1024px;
+$width-large: 1440px;
+
+@media screen and (max-width: $width-large) {
+}
+
+@media screen and (max-width: $width-default) {
+  $sider_width: 160px;
+  .user-layout {
+    .ant-layout-content {
+      .layout-sider {
+        width: $sider_width;
+      }
+      .layout-main {
+        left: $sider_width;
+        width: calc(100% - $sider_width);
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $width-medium) {
+  $sider_width: 0px;
+  $header_height: 48px;
+
+  .user-layout {
+    .layout-header {
+      height: $header_height;
+    }
+    .ant-layout-content {
+      .menu_foled {
+        right: 0px;
+      }
+      .layout-sider {
+        width: $sider_width;
+        opacity: 0;
+      }
+      .layout-main {
+        left: $sider_width;
+        width: calc(100% - $sider_width);
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $width-small) {
+  .user-layout {
+    .layout-header {
+      .logo_card {
+        width: 100%;
+        transition: width 0.4s;
+        text-align: center;
+      }
+      .login_card {
+        top: -100px;
+        left: -200px;
+        opacity: 0;
+        position: absolute;
+      }
+    }
+  }
+}
+
+@media print {
+  .user-layout {
+    .layout-header,
+    .layout-sider,
+    .menu_foled {
+      display: none;
+    }
+    .layout-main {
+      left: 200px;
+      top: 0px;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+    }
+  }
+}

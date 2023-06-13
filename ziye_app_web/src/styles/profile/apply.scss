@@ -1,0 +1,130 @@
+.apply_wrapper {
+  width: 100%;
+  height: auto;
+  min-height: 100%;
+
+  .item_card {
+    width: 100%;
+    height: 100%;
+    padding: 16px;
+
+    position: relative;
+    padding-right: 56px;
+    margin-bottom: 16px;
+    cursor: pointer;
+    transition: all 0.4s;
+
+    &:not(:last-child)::after {
+      content: "";
+      left: 0px;
+      bottom: -8px;
+      width: 100%;
+      height: 0px;
+      border-bottom: 1px dashed #909399;
+      position: absolute;
+    }
+
+    &:hover {
+      color: #79bbff;
+    }
+    &:active {
+      color: #409eff;
+    }
+
+    .item_name {
+      font-size: 18px;
+      padding-bottom: 8px;
+      transition: all 0.4s;
+    }
+
+    .item_info {
+      color: #909399;
+      display: flex;
+      align-items: center;
+
+      div {
+        padding-right: 8px;
+      }
+    }
+
+    .option {
+      top: 0px;
+      right: 0px;
+      width: 40px;
+      height: 100%;
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-right: 16px;
+      transition: all 0.4s;
+    }
+  }
+
+  .pagination_card {
+    width: 100%;
+    padding: 24px;
+    text-align: center;
+
+    .ant-pagination-item {
+      min-width: 28px;
+      height: 28px;
+      line-height: 28px;
+    }
+  }
+}
+
+$width-small: 375px;
+$width-medium: 768px;
+$width-default: 1024px;
+$width-large: 1440px;
+
+@media screen and (max-width: $width-large) {
+  .apply_wrapper {
+    .item_card {
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+  }
+}
+
+@media screen and (max-width: $width-default) {
+  .apply_wrapper {
+    .item_card {
+      padding: 8px 12px;
+      margin-bottom: 12px;
+      .item_name {
+        font-size: 16px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $width-medium) {
+  .apply_wrapper {
+    .item_card {
+      padding: 8px;
+      margin-bottom: 8px;
+      .item_name {
+        font-size: 16px;
+      }
+      .option {
+        padding-right: 8px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $width-small) {
+  .apply_wrapper {
+    .item_card {
+      padding: 8px 0px;
+      margin-bottom: 8px;
+
+      .option {
+        width: 24px;
+        padding-right: 0px;
+      }
+    }
+  }
+}

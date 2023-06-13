@@ -1,0 +1,220 @@
+$header_height: 64px;
+$info_height: 100px;
+
+.login_wapper {
+  width: 100%;
+  height: 100vh;
+  background: url("../assets/login_bg.jpg") center no-repeat;
+  background-size: cover;
+  position: relative;
+  overflow: hidden;
+
+  .header_card {
+    width: 100%;
+    height: $header_height;
+    background-color: #fff;
+    box-shadow: 0px 0px 10px #cdd0d6;
+    display: flex;
+    align-items: center;
+    padding: 16px 24px;
+    transition: height 0.4s;
+    .logo_title {
+      color: #ff6a00;
+      font-size: 24px;
+      font-family: "华文行楷";
+    }
+  }
+  .main_card {
+    width: 100%;
+    height: calc(100% - $header_height - $info_height);
+    margin: auto;
+    display: flex;
+    transition: all 0.4s;
+  }
+  .info_card {
+    width: 100%;
+    height: $info_height;
+  }
+}
+
+.login_wapper .main_card {
+  padding: 100px 240px;
+
+  .label_card {
+    width: 100%;
+    height: auto;
+    padding: 24px;
+    user-select: none;
+    transition: width 0.4s, opacity 0.2s;
+
+    .title {
+      width: 100%;
+      height: auto;
+      font-size: 48px;
+      letter-spacing: 2px;
+      font-family: "华文行楷";
+      vertical-align: bottom;
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+    }
+
+    .siteName {
+      width: 100%;
+      height: auto;
+      padding: 16px 0px;
+      font-size: 36px;
+      letter-spacing: 2px;
+      font-family: "楷体";
+      white-space: nowrap;
+    }
+  }
+
+  .login_card {
+    width: auto;
+    height: auto;
+    position: relative;
+
+    .register_card {
+      cursor: pointer;
+      top: 0px;
+      right: 0px;
+      height: 48px;
+      width: 48px;
+      z-index: 1;
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      &::after {
+        content: "";
+        top: 0px;
+        right: 0px;
+        border: 40px solid #f8e3c5;
+        border-left-color: transparent;
+        border-bottom-color: transparent;
+        z-index: -1;
+        position: absolute;
+      }
+    }
+
+    .form_card {
+      width: 400px;
+      height: auto;
+      box-shadow: 0px 0px 10px #cdd0d6;
+      padding: 40px;
+      background-color: #fff;
+      transition: all 0.4s;
+    }
+  }
+}
+
+.login_wapper .ant-form {
+  width: 100%;
+  height: auto;
+  padding-top: 16px;
+
+  .ant-form-item {
+    .ant-input-affix-wrapper {
+      border-radius: 0px;
+      border-width: 0px;
+      border-bottom-width: 1px;
+
+      box-shadow: unset;
+      .ant-input {
+        padding-left: 8px;
+      }
+    }
+  }
+
+  .form_inline {
+    width: 100%;
+    .ant-form-item-control-input-content {
+      display: flex;
+    }
+    .ant-btn {
+      padding: 4px 8px;
+    }
+  }
+  .custom .ant-btn {
+    width: 100%;
+    border-radius: 0px;
+  }
+}
+
+$width-small: 375px;
+$width-medium: 768px;
+$width-default: 1024px;
+$width-large: 1440px;
+
+@media screen and (max-width: $width-large) {
+  .login_wapper .main_card {
+    width: 100%;
+    padding: 100px 120px;
+
+    .login_card {
+      padding-right: 0px;
+
+      .form_card {
+        width: 360px;
+        padding: 40px 32px;
+      }
+    }
+
+    .label_card {
+      .title {
+        font-size: 40px;
+      }
+      .siteName {
+        font-size: 32px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $width-default) {
+  .login_wapper .main_card {
+    width: 100%;
+    padding: 100px 80px;
+    justify-content: center;
+
+    .label_card {
+      padding: 0px;
+      width: 0px;
+      opacity: 0;
+    }
+  }
+}
+
+@media screen and (max-width: $width-medium) {
+  .login_wapper .main_card {
+    width: 100%;
+    padding: 48px 64px;
+    .login_card {
+      .form_card {
+        width: 320px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $width-small) {
+  $header_height: 48px;
+  $info_height: 100px;
+  .login_wapper {
+    .header_card {
+      height: $header_height;
+    }
+    .main_card {
+      height: calc(100% - $header_height - $info_height);
+      padding: 40px 24px;
+
+      .login_card {
+        .form_card {
+          width: 300px;
+        }
+      }
+    }
+  }
+}

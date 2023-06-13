@@ -1,0 +1,245 @@
+.login_wapper {
+	width: 100%;
+	height: 100vh;
+	background-color: #000;
+	display: grid;
+	place-items: center;
+	overflow: hidden;
+}
+
+.particles_card {
+	width: auto;
+	height: 100vh;
+	position: absolute;
+	overflow: hidden;
+}
+
+.login_wapper .login_card {
+	$imageUrl: "../assets/starry.jpg";
+	width: 640px;
+	height: 420px;
+	background: url($imageUrl) center center no-repeat;
+	background-size: auto 100%;
+	z-index: 1;
+	position: relative;
+	margin-bottom: 80px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	overflow: hidden;
+	padding: 32px;
+
+	&::after {
+		content: "";
+		left: 0%;
+		top: 0px;
+		width: 56%;
+		height: 100%;
+		position: absolute;
+		background-color: #353b41;
+	}
+
+	.card_body {
+		width: 100%;
+		height: 100%;
+		z-index: 1;
+		position: relative;
+		background-color: transparent;
+		border: 16px solid transparent;
+		border-image: url($imageUrl) 32 32 round;
+		display: grid;
+		grid-template-columns: 4fr 3fr;
+		padding: 0 16px;
+	}
+
+	.info_card {
+		width: 100%;
+		height: 100%;
+		background-color: rgba($color: #000000, $alpha: 0.4);
+		text-align: center;
+		color: #fff;
+		padding: 24px;
+		position: relative;
+
+		.info_title {
+			display: inline-block;
+			letter-spacing: 2px;
+			font-size: 26px;
+			font-weight: 600;
+			padding: 4px;
+			font-family: "华文行楷";
+			margin-bottom: 8px;
+		}
+		.info_note {
+			width: 100%;
+			height: 100%;
+			color: #fafafa;
+
+			.other {
+				left: 0px;
+				bottom: 0px;
+				position: absolute;
+				color: #e6a23c;
+				padding: 20px;
+				font-size: 14px;
+			}
+		}
+	}
+}
+
+.login_wapper .login_card .ant-tabs {
+	padding: 16px;
+	color: #fff;
+	.ant-tabs-content,
+	.ant-tabs-tabpane {
+		width: 100%;
+		height: 100%;
+	}
+	.ant-tabs-tabpane {
+		display: flex;
+		align-items: flex-end;
+	}
+}
+
+.login_wapper .login_card .ant-form {
+	.custom {
+		margin-bottom: 16px;
+	}
+	$custom_color: rgba(
+		$color: #fff,
+		$alpha: 0.8,
+	);
+	.ant-form-item {
+		width: 90%;
+
+		.ant-form-item-control-input-content {
+			.ant-input-affix-wrapper {
+				background-color: transparent;
+				border: unset;
+				border-radius: 0px;
+				border-bottom: 1px solid $custom_color;
+
+				.ant-input-prefix {
+					color: $custom_color;
+					margin-right: 8px;
+				}
+				.ant-input-suffix {
+					.ant-input-password-icon {
+						color: #ff4d4f;
+					}
+					.anticon {
+						color: $custom_color;
+					}
+				}
+				.ant-input {
+					color: $custom_color;
+					background-color: transparent;
+				}
+				.ant-input::-webkit-input-placeholder {
+					color: $custom_color;
+				}
+			}
+			.ant-input-affix-wrapper:focus,
+			.ant-input-affix-wrapper-focused {
+				box-shadow: unset;
+				border-bottom-color: #1890ff;
+			}
+			.ant-input-affix-wrapper-status-error:not(.ant-input-affix-wrapper-disabled):not(
+					.ant-input-affix-wrapper-borderless
+				).ant-input-affix-wrapper:hover {
+				background-color: transparent;
+			}
+
+			.ant-checkbox-wrapper {
+				color: $custom_color;
+			}
+		}
+	}
+	.form_inline {
+		margin-bottom: 0px;
+		.ant-form-item-control-input-content {
+			display: flex;
+			justify-content: space-between;
+			flex-direction: row;
+		}
+		.timer_btn {
+			padding: 0px 8px;
+		}
+	}
+
+	.ant-btn[type="primary"] {
+		width: 60%;
+		border-radius: 4px;
+		text-align: left;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+}
+
+.ant-modal.valid_card .ant-modal-body {
+	.image_card {
+		width: 100%;
+		height: auto;
+		border: solid 1px #dcdfe6;
+		position: relative;
+
+		.ant-avatar {
+			width: 100%;
+			height: auto;
+			img {
+				width: 100%;
+				aspect-ratio: 16/9;
+				object-fit: cover;
+			}
+		}
+		.text_card {
+			top: 0px;
+			left: 0px;
+			width: 100%;
+			height: 100%;
+			z-index: 1;
+			position: absolute;
+			padding: 16px;
+			user-select: none;
+
+			.anticon {
+				right: 16px;
+				position: absolute;
+				cursor: pointer;
+			}
+
+			span {
+				font-size: 24px;
+				position: absolute;
+				cursor: default;
+			}
+		}
+	}
+
+	.info_card {
+		width: 100%;
+		text-align: center;
+		font-size: 16px;
+		margin-top: 16px;
+		padding: 4px 8px;
+		border: solid 1px #dcdfe6;
+		span {
+			margin-left: 8px;
+		}
+	}
+}
+
+.login_wapper .record_card {
+	left: 0px;
+	bottom: 0px;
+	width: 100%;
+	// height: 120px;
+	padding: 32px;
+	position: absolute;
+	color: #fff;
+	background-color: rgba($color: #fff, $alpha: 0.04);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}

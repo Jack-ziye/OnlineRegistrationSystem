@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.code.mapper.system.RoleMenuMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.code.entity.system.RoleMenu">
+        <id column="id" property="id"/>
+        <result column="role_id" property="roleId"/>
+        <result column="menu_id" property="menuId"/>
+    </resultMap>
+
+
+    <!-- 通用查询结果列 -->
+    <sql id="BaseColumnList">
+        t.id as id,
+        t.role_id as roleId,
+        t.menu_id as menuId
+    </sql>
+
+    <!-- 通用查询条件 -->
+    <sql id="BaseWhere">
+        <where>
+            <if test="roleId != null and roleId != ''">
+                and t.role_id = #{roleId}
+            </if>
+            <if test="menuId != null and menuId != ''">
+                and t.menu_id = #{menuId}
+            </if>
+        </where>
+    </sql>
+
+    <!-- 根据roleId删除数据 -->
+    <select id="selectByRoleId" resultType="com.code.entity.system.RoleMenu">
+        SELECT
+            <include refid="BaseColumnList"/>
+        FROM
+             role_menu t
+        WHERE
+              t.role_id = #{roleId}
+        ORDER BY t.menu_id
+    </select>
+
+    <delete id="deleteByRoleId" >
+        DELETE FROM role_menu WHERE role_id = #{roleId}
+    </delete>
+
+</mapper>

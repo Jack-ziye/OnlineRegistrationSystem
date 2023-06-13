@@ -1,0 +1,145 @@
+.table_wapper {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.table_wapper .dialog_table_warpper {
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+}
+
+.table_wapper .main_header {
+  width: 100%;
+  padding-bottom: 8px;
+
+  .screen_from .ant-form-item {
+    margin-bottom: 8px;
+    .ant-btn {
+      margin-right: 8px;
+    }
+  }
+}
+
+.table_wapper .main_body {
+  width: 100%;
+  height: 100%;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  // overflow: auto;
+
+  .button_card {
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+
+    .ant-btn {
+      margin-right: 8px;
+    }
+  }
+}
+
+.table_wapper .ant-table-wrapper {
+  width: 100%;
+  height: 100%;
+  flex-grow: 1;
+
+  .ant-spin-nested-loading,
+  .ant-spin-container {
+    width: 100%;
+    height: 100%;
+  }
+
+  .ant-table {
+    width: 100%;
+    height: calc(100% - 48px);
+    border-bottom: 1px solid #f0f0f0;
+
+    .ant-table-container {
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+
+    .ant-table-content {
+      left: 0px;
+      top: 0px;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      overflow: auto;
+
+      .ant-table-thead {
+        top: 0px;
+        z-index: 1;
+        position: relative;
+        position: sticky;
+        .ant-table-cell {
+          padding: 12px 16px;
+        }
+      }
+
+      .ant-table-tbody .ant-table-cell {
+        padding: 8px 16px;
+
+        .ant-btn {
+          border: unset;
+          padding: 0px;
+          margin-right: 16px;
+        }
+      }
+    }
+  }
+
+  .ant-table-pagination.ant-pagination {
+    width: 100%;
+    height: 48px;
+    padding-top: 8px;
+    margin: 0px;
+    background-color: #fff;
+    z-index: 1;
+    position: relative;
+  }
+}
+
+.export-dialog {
+  width: 800px;
+
+  .ant-transfer {
+    width: 100%;
+    padding: 16px;
+
+    .ant-transfer-list {
+      width: 50%;
+      height: 300px;
+    }
+  }
+}
+
+.ant-form {
+  .ant-form-item .tree_select {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #d9d9d9;
+    padding: 8px 0px;
+
+    &::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    &::-webkit-scrollbar-thumb {
+      border-radius: 6px;
+      background-color: #d9d9d9;
+    }
+  }
+  .cropper_item {
+    .ant-form-item-row {
+      justify-content: center;
+    }
+  }
+}

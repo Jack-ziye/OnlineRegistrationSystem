@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.code.mapper.system.MenuMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.code.entity.system.Menu">
+        <id column="id" property="menuId" />
+        <result column="parent" property="parent" />
+        <result column="name" property="menuName" />
+        <result column="icon" property="menuIcon" />
+        <result column="sort" property="orderIndex" />
+        <result column="path" property="menuPath" />
+        <result column="status" property="status" />
+        <result column="remark" property="remark" />
+        <result column="create_time" property="createTime" />
+        <result column="creator" property="creator" />
+        <result column="lmt" property="lmt" />
+        <result column="modifier" property="modifier" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="BaseColumnList">
+        t.id as menuId,
+        t.parent as parent,
+        t.type as menuType,
+        t.name as menuName,
+        t.icon as menuIcon,
+        t.order_index as orderIndex,
+        t.path as menuPath,
+        t.code as menuCode,
+        t.`status` as `status`,
+        t.`show` as `show`,
+        t.create_time as createTime,
+        t.creator as creator,
+        t.lmt as lmt,
+        t.modifier as modifier
+    </sql>
+
+    <!-- 通用查询条件 -->
+    <sql id="BaseWhere">
+        <where>
+            <if test="parent != null">
+                and t.parent = #{parent}
+            </if>
+            <if test="menuName != null and menuName != ''">
+                and t.name = #{menuName}
+            </if>
+        </where>
+    </sql>
+
+    <!-- 获取菜单   -->
+    <select id="selectMenu" resultType="com.code.entity.system.Menu">
+        SELECT
+            sd.`value` as statusName,
+            sd2.`value` as showName,
+            <include refid="BaseColumnList"/>
+        FROM
+            sys_menu t
+            LEFT JOIN sys_dict sd ON sd.`key` = t.status AND sd.type = 'system_status' AND sd.`status` = 0
+            LEFT JOIN sys_dict sd2 ON sd2.`key` = t.status AND sd2.type = 'system_menu_show' AND sd2.`status` = 0
+            <include refid="BaseWhere"/>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by
+                    t.order_index,
+                    t.id
+			</otherwise>
+        </choose>
+    </select>
+
+    <!-- 获取用户菜单（用于授权）   -->
+    <select id="selectRoleMenuByUserId" resultType="com.code.entity.system.Menu">
+        SELECT
+            sd.`value` as statusName,
+            <include refid="BaseColumnList"/>
+        FROM
+            sys_menu t
+            LEFT JOIN role_menu rm ON rm.menu_id = t.id
+            LEFT JOIN role_user ru ON ru.role_id = rm.role_id
+            LEFT JOIN sys_dict sd ON sd.`key` = t.status AND sd.type = 'system_status' AND sd.`status` = 0
+        WHERE
+            ru.user_id = #{userId}
+            AND t.`code` IS NOT NULL
+            AND t.`status` = 0
+        ORDER BY
+            t.id
+    </select>
+
+    <!-- 状态变更   -->
+    <update id="updateStatus" >
+        UPDATE sys_menu t
+        SET t.`status` = ABS( t.`status` - 1 )
+        WHERE
+            t.id = #{menuId}
+    </update>
+
+    <!-- 显示变更   -->
+    <update id="updateShow" >
+        UPDATE sys_menu t
+        SET t.`show` = ABS( t.`show` - 1 )
+        WHERE
+            t.id = #{menuId}
+    </update>
+
+    <!-- 获取用户权限菜单（用于导航菜单显示）   -->
+    <select id="selectCurrentMenu" resultType="com.code.entity.system.CurrentMenu">
+        SELECT
+            t.id AS `menuId`,
+            t.parent,
+            t.`name` AS label,
+            t.icon,
+            t.path
+        FROM
+            sys_menu t
+            LEFT JOIN role_menu rm ON rm.menu_id = t.id
+            LEFT JOIN role_user ru ON ru.role_id = rm.role_id
+        WHERE
+            ru.user_id = #{userId}
+            AND t.parent = #{parent}
+            AND t.`status` = 0
+            AND t.`show` = 0
+            AND t.type != 2
+        ORDER BY
+            t.order_index,
+            t.id
+    </select>
+
+</mapper>

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.code.mapper.system.UserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.code.entity.system.SysUser">
+        <id column="id" property="id" />
+        <result column="avatar" property="avatar" />
+        <result column="username" property="username" />
+        <result column="password" property="password" />
+        <result column="mobile" property="mobile" />
+        <result column="email" property="email" />
+        <result column="status" property="status" />
+        <result column="create_time" property="createTime" />
+        <result column="creator" property="creator" />
+        <result column="lmt" property="lmt" />
+        <result column="modifier" property="modifier" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="BaseColumnList">
+        t.id as userId,
+        t.nickname as nickName,
+        t.avatar as avatar,
+        t.username as username,
+        t.password as password,
+        t.mobile as mobile,
+        t.email as email,
+        t.status as status,
+        t.create_time as createTime,
+        t.creator as creator,
+        t.lmt as lmt,
+        t.modifier as modifier
+    </sql>
+
+    <!-- 通用查询条件 -->
+    <sql id="BaseWhere">
+        <where>
+            <if test="currentUserId != null">
+                and t.id != #{currentUserId}
+            </if>
+            <if test="username != null and username != ''">
+                and t.username like CONCAT('%',#{username},'%')
+            </if>
+            <if test="creatTimeFrom != null and creatTimeFrom != '' and creatTimeTo != null and creatTimeTo != ''">
+                and t.create_time BETWEEN #{creatTimeFrom} AND #{creatTimeTo}
+            </if>
+        </where>
+    </sql>
+
+    <!-- 分页查询 -->
+    <select id="selectPageList" resultType="com.code.entity.system.SysUser">
+        SELECT
+            sd.`value` as statusName,
+            <include refid="BaseColumnList"/>
+        FROM
+            `sys_user` as t
+            LEFT JOIN sys_dict sd ON sd.`key` = t.status AND sd.type = 'system_status' AND sd.`status` = 0
+            <include refid="BaseWhere"/>
+        ORDER BY
+            t.create_time DESC
+    </select>
+
+    <!-- 查看详情 -->
+    <select id="selectById" resultType="com.code.entity.system.SysUser">
+        SELECT
+            r.id as roleId,
+            r.`name` as roleName,
+            r.`code` as roleCode,
+            sd.`value` as statusName,
+            <include refid="BaseColumnList"/>
+        FROM
+            `sys_user` as t
+            LEFT JOIN role_user ru ON ru.user_id = t.id
+            LEFT JOIN sys_role r ON r.id = ru.role_id
+            LEFT JOIN sys_dict sd ON sd.`key` = t.status AND sd.type = 'system_status' AND sd.`status` = 0
+        WHERE
+            t.id=#{userId}
+    </select>
+
+    <select id="selectByUsername" resultType="com.code.entity.system.SysUser">
+        SELECT
+            r.id as roleId,
+            r.`name` as roleName,
+            r.`code` as roleCode,
+            sd.`value` as statusName,
+            <include refid="BaseColumnList"/>
+        FROM
+            sys_user t
+            LEFT JOIN role_user ru ON ru.user_id = t.id
+            LEFT JOIN sys_role r ON r.id = ru.role_id
+            LEFT JOIN sys_dict sd ON sd.`key` = t.status AND sd.type = 'system_status' AND sd.`status` = 0
+        WHERE
+            t.username=#{username}
+    </select>
+
+    <select id="selectByMobile" resultType="com.code.entity.system.SysUser">
+        SELECT
+        r.id as roleId,
+        r.`name` as roleName,
+        r.`code` as roleCode,
+        sd.`value` as statusName,
+        <include refid="BaseColumnList"/>
+        FROM
+        sys_user t
+        LEFT JOIN role_user ru ON ru.user_id = t.id
+        LEFT JOIN sys_role r ON r.id = ru.role_id
+        LEFT JOIN sys_dict sd ON sd.`key` = t.status AND sd.type = 'system_status' AND sd.`status` = 0
+        WHERE
+        t.mobile=#{mobile}
+    </select>
+
+    <!-- 状态变更   -->
+    <update id="updateUserStatus" >
+        UPDATE sys_user t
+        SET t.`status` = ABS( t.`status` - 1 )
+        WHERE
+            t.id = #{userId}
+    </update>
+
+</mapper>

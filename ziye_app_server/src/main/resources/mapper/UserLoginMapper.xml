@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.code.mapper.system.LoginMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.code.entity.system.LoginLog">
+        <id column="id" property="id" />
+        <result column="user_id" property="userId" />
+        <result column="address" property="address" />
+        <result column="place" property="place" />
+        <result column="browser" property="browser" />
+        <result column="system" property="system" />
+        <result column="status" property="status" />
+        <result column="loginTime" property="loginTime" />
+    </resultMap>
+
+
+    <!-- 通用查询结果列 -->
+    <sql id="BaseColumnList">
+        t.id as id,
+        t.user_id as userId,
+        t.address as address,
+        t.place as place,
+        t.browser as browser,
+        t.system as system,
+        t.status as status,
+        t.login_time as loginTime
+    </sql>
+
+    <!-- 通用查询条件 -->
+    <sql id="BaseWhere">
+        <where>
+            <if test="username != null and username != ''">
+                and su.username like CONCAT('%',#{username},'%')
+            </if>
+            <if test="address != null and address != ''">
+                and t.address = #{address}
+            </if>
+            <if test="loginTimeFrom != null and loginTimeFrom != '' and loginTimeTo != null and loginTimeTo != ''">
+                and t.login_time BETWEEN #{loginTimeFrom} AND #{loginTimeTo}
+            </if>
+        </where>
+    </sql>
+
+
+    <!-- 分页查询 -->
+    <select id="selectPage" resultType="com.code.entity.system.LoginLog">
+        SELECT
+            su.username as username,
+            sd.`value` as statusName,
+            <include refid="BaseColumnList"/>
+        FROM
+            user_login t
+            LEFT JOIN sys_user AS su ON t.user_id = su.id
+            LEFT JOIN sys_dict sd ON sd.`key` = t.status AND sd.type = 'system_login_status' AND sd.`status` = 0
+            <include refid="BaseWhere"/>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by t.login_time DESC
+			</otherwise>
+        </choose>
+    </select>
+
+    <!-- 查询用户登录成功日志 -->
+    <select id="selectLatest" resultType="com.code.entity.system.LoginLog">
+        SELECT
+            su.username as username,
+            <include refid="BaseColumnList"/>
+        FROM
+            user_login t
+            LEFT JOIN sys_user AS su ON t.user_id = su.id
+        WHERE
+            t.user_id = #{userId}
+            AND t.`status` = 0
+        ORDER BY
+            t.login_time DESC LIMIT 1
+    </select>
+
+</mapper>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.code.mapper.system.RoleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.code.entity.system.Role">
+        <id column="id" property="roleId" />
+        <result column="name" property="roleName" />
+        <result column="code" property="roleCode" />
+        <result column="order_index" property="orderIndex" />
+        <result column="remark" property="remark" />
+        <result column="create_user" property="createUser" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="BaseColumnList">
+        t.id as roleId,
+        t.name as roleName,
+        t.code as roleCode,
+        t.order_index as orderIndex,
+        t.status as status,
+        t.remark as remark,
+        t.create_user as createUser,
+        t.create_time as createTime,
+        t.update_time as updateTime
+    </sql>
+
+    <!-- 通用查询条件 -->
+    <sql id="BaseWhere">
+        <where>
+            <if test="roleName != null and roleName != ''">
+                and t.name like CONCAT('%',#{roleName},'%')
+            </if>
+            <if test="creatTimeFrom != null and creatTimeFrom != '' and creatTimeTo != null and creatTimeTo != ''">
+                and t.create_time BETWEEN #{creatTimeFrom} AND #{creatTimeTo}
+            </if>
+        </where>
+    </sql>
+
+    <!-- 分页查询 -->
+    <select id="selectPage" resultType="com.code.entity.system.Role">
+        SELECT
+            sd.`value` as statusName,
+            <include refid="BaseColumnList"/>
+        FROM
+            sys_role t
+            LEFT JOIN sys_dict sd ON sd.`key` = t.status AND sd.type = 'system_status' AND sd.`status` = 0
+            <include refid="BaseWhere"/>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by t.id ASC
+			</otherwise>
+        </choose>
+    </select>
+
+    <!-- 状态变更   -->
+    <update id="updateStatus" >
+        UPDATE sys_role t
+        SET t.`status` = ABS( t.`status` - 1 )
+        WHERE
+            t.id = #{roleId}
+    </update>
+
+</mapper>

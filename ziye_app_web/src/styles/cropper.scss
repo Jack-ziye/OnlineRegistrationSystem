@@ -1,0 +1,153 @@
+.cropper_wrapper {
+  width: 100%;
+  height: 100%;
+}
+
+.upload_avatar_card {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1;
+  border: 1px dashed #dcdfe6;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+
+  .ant-image {
+    width: 100%;
+    height: 100%;
+
+    .ant-image-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+}
+
+.upload_image_card {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4/3;
+  border: 1px dashed #dcdfe6;
+  position: relative;
+
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    color: #409eff;
+    border-color: #409eff;
+  }
+
+  .image_card {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4/3;
+    position: relative;
+
+    &:hover::after {
+      content: "修改";
+      left: 0px;
+      top: 0px;
+      width: 100%;
+      height: 100%;
+      z-index: 11;
+      position: absolute;
+      color: #fff;
+      background-color: rgba($color: #000000, $alpha: 0.4);
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .ant-image {
+      width: 100%;
+      height: 100%;
+      .ant-image-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+  }
+
+  .upload_card {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    .anticon {
+      padding: 16px;
+    }
+  }
+}
+
+.cropper_image_card {
+  width: 100%;
+  height: 400px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 24px;
+  overflow: hidden;
+
+  .cropper_card {
+    width: 100%;
+    height: 100%;
+    border: 1px dashed #dcdfe6;
+    overflow: hidden;
+  }
+
+  .avatar_card {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .ant-image {
+      width: 200px;
+      // height: 100%;
+      aspect-ratio: 1;
+
+      .ant-image-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+      }
+    }
+  }
+
+  .image_card {
+    width: 100%;
+    height: 100%;
+    border: 1px dashed #dcdfe6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .ant-image {
+      width: 100%;
+      // height: 100%;
+      aspect-ratio: 4/3;
+      .ant-image-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+  }
+}
+
+.option_card {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  padding: 16px;
+}

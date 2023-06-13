@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.code.mapper.system.ConfigMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.code.entity.system.Config">
+        <id column="id" property="configId" />
+        <result column="name" property="configName" />
+        <result column="key" property="configKey" />
+        <result column="value" property="configValue" />
+        <result column="builtIn" property="builtIn" />
+        <result column="remark" property="remark" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+
+
+    <!-- 通用查询结果列 -->
+    <sql id="BaseColumnList">
+        t.id as configId,
+        t.name as configName,
+        t.key as configKey,
+        t.value as configValue,
+        t.builtIn as builtIn,
+        t.remark as remark,
+        t.create_time as createTime
+    </sql>
+
+    <!-- 通用查询条件 -->
+    <sql id="BaseWhere">
+        <where>
+            <if test="configName != null and configName != ''">
+                and t.name like CONCAT('%',#{configName},'%')
+            </if>
+            <if test="configKey != null and configKey != ''">
+                and t.type like CONCAT('%',#{configKey},'%')
+            </if>
+        </where>
+    </sql>
+
+    <!-- 分页查询 -->
+    <select id="selectPage" resultType="com.code.entity.system.Config">
+        select <include refid="BaseColumnList"/>
+        from sys_config t
+        <include refid="BaseWhere"/>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by t.id ASC
+			</otherwise>
+        </choose>
+    </select>
+
+</mapper>

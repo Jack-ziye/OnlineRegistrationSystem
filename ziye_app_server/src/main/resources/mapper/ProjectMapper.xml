@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.code.mapper.pf.ProjectMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.code.entity.pf.Project">
+        <id column="id" property="projectId" />
+        <result column="category_id" property="categoryId" />
+        <result column="name" property="projectName" />
+        <result column="content" property="content" />
+        <result column="quota" property="quota" />
+        <result column="start_time" property="startTime" />
+        <result column="end_time" property="endTime" />
+        <result column="status" property="status" />
+        <result column="is_top" property="isTop" />
+        <result column="remark" property="remark" />
+        <result column="create_time" property="createTime" />
+        <result column="creator" property="creator" />
+        <result column="lmt" property="lmt" />
+        <result column="modifier" property="modifier" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="BaseColumnList">
+        t.id as projectId,
+        t.category_id as categoryId,
+        t.cover as cover,
+        t.`name` as projectName,
+        t.content as content,
+        t.expense as expense,
+        t.quota as quota,
+        t.start_time as startTime,
+        t.end_time as endTime,
+        t.is_top as isTop,
+        t.status as status,
+        t.remark as remark,
+        t.create_time as createTime,
+        t.creator as creator,
+        t.lmt as lmt,
+        t.modifier as modifier
+    </sql>
+
+    <sql id="BaseTimeCompute">
+        IF(TIMESTAMPDIFF( SECOND, t.start_time, NOW()) > 0,
+            IF(TIMESTAMPDIFF(SECOND,t.end_time,NOW()) > 0, 0, TIMESTAMPDIFF(SECOND, NOW(), t.end_time)),
+            TIMESTAMPDIFF( SECOND, t.start_time, NOW())) AS diffTime,
+        IF( t.quota ='-1', t.quota, ( SELECT t.quota - COUNT( pa.id ) FROM pf_apply pa WHERE pa.project_id = t.id )) AS diffQuota,
+        IF(TIMESTAMPDIFF ( SECOND, t.start_time, NOW() ) > 0, IF(TIMESTAMPDIFF ( SECOND,t.end_time, NOW()) > 0, "已结束", "进行中"), "未开始") AS statusInfo
+    </sql>
+
+    <!-- 通用查询条件 -->
+    <sql id="BaseWhere">
+        <where>
+            <if test="projectName != null and projectName != ''">
+                and t.`name` like CONCAT('%',#{projectName},'%')
+            </if>
+            <if test="categoryId != null and categoryId != ''">
+                and pc.`id` = #{categoryId}
+            </if>
+            <if test="categoryName != null and categoryName != ''">
+                and pc.`name` like CONCAT('%',#{categoryName},'%')
+            </if>
+            <if test="statusTime != null and statusTime != ''">
+                <if test="statusTime == '未开始'">
+                    and t.start_time > NOW()
+                </if>
+                <if test="statusTime == '进行中'">
+                    and NOW() BETWEEN t.start_time AND t.end_time
+                </if>
+                <if test="statusTime == '已结束'">
+                    and NOW() > t.end_time
+                </if>
+            </if>
+            <if test="creatTimeFrom != null and creatTimeFrom != '' and creatTimeTo != null and creatTimeTo != ''">
+                and t.create_time BETWEEN #{creatTimeFrom} AND #{creatTimeTo}
+            </if>
+        </where>
+    </sql>
+
+    <!-- 分页查询 -->
+    <select id="selectPageList" resultType="com.code.entity.pf.Project">
+        SELECT
+            sd.`value` as statusName,
+            pc.`name` as categoryName,
+            su.username AS username,
+            <include refid="BaseTimeCompute"/>,
+            <include refid="BaseColumnList"/>
+        FROM
+            `pf_project` as t
+            LEFT JOIN sys_dict sd ON sd.`key` = t.status AND sd.type = 'pf_project_status' AND sd.`status` = 0
+            LEFT JOIN pf_category pc ON pc.`id` = t.category_id AND pc.`status` = 0
+            LEFT JOIN `sys_user` su ON su.id = t.creator
+            <include refid="BaseWhere"/>
+        ORDER BY
+            t.create_time DESC
+    </select>
+
+    <!-- 查看详情 -->
+    <select id="selectById" resultType="com.code.entity.pf.Project">
+        SELECT
+            sd.`value` as statusName,
+            pc.`name` as categoryName,
+            su.username AS username,
+            <include refid="BaseTimeCompute"/>,
+            <include refid="BaseColumnList"/>
+        FROM
+            `pf_project` as t
+            LEFT JOIN sys_dict sd ON sd.`key` = t.status AND sd.type = 'pf_project_status' AND sd.`status` = 0
+            LEFT JOIN pf_category pc ON pc.`id` = t.category_id AND pc.`status` = 0
+            LEFT JOIN `sys_user` su ON su.id = t.creator
+        WHERE
+            t.id=#{projectId}
+    </select>
+
+    <!-- 状态变更   -->
+    <update id="updateStatus">
+        UPDATE pf_project t
+        SET t.`status` = ABS( t.`status` - 1 )
+        WHERE
+            t.id = #{projectId}
+    </update>
+
+    <!--  通过人才Id获取项目列表（用于详情）  -->
+    <select id="selectListByTalentId" resultType="com.code.entity.pf.Project">
+        SELECT
+            sd.`value` as statusName,
+            pc.`name` as categoryName,
+            ppt.create_time as applyTime,
+            ppt_sd.`value` as applyStatusName,
+            <include refid="BaseTimeCompute"/>,
+            <include refid="BaseColumnList"/>
+        FROM
+            `pf_project` as t
+            LEFT JOIN sys_dict sd ON sd.`key` = t.status AND sd.type = 'pf_project_status' AND sd.`status` = 0
+            LEFT JOIN pf_category pc ON pc.`id` = t.category_id AND pc.`status` = 0
+            LEFT JOIN pf_apply ppt ON ppt.project_id = t.id
+            LEFT JOIN sys_dict ppt_sd ON ppt_sd.`key` = ppt.status AND ppt_sd.type = 'pf_apply_status' AND ppt_sd.`status` = 0
+        WHERE
+            ppt.talent_id = #{talentId}
+        ORDER BY
+            t.create_time DESC
+    </select>
+
+</mapper>

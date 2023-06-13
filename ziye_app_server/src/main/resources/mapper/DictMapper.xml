@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.code.mapper.system.DictMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.code.entity.system.Dict">
+        <id column="id" property="dictId" />
+        <result column="name" property="dictName" />
+        <result column="type" property="dictType" />
+        <result column="key" property="dictKey" />
+        <result column="value" property="dictValue" />
+        <result column="remark" property="remark" />
+        <result column="parent" property="parent" />
+        <result column="status" property="status" />
+        <result column="order_index" property="orderIndex" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+
+
+    <!-- 通用查询结果列 -->
+    <sql id="BaseColumnList">
+        t.id as dictId,
+        t.name as dictName,
+        t.type as dictType,
+        t.key as dictKey,
+        t.value as dictValue,
+        t.remark as remark,
+        t.status as status,
+        t.order_index as orderIndex
+    </sql>
+
+    <!-- 通用查询条件 -->
+    <sql id="BaseWhere">
+        <where>
+            <if test="dictName != null and dictName != ''">
+                and t.name like CONCAT('%',#{dictName},'%')
+            </if>
+            <if test="dictType != null and dictType != ''">
+                and t.type like CONCAT('%',#{dictType},'%')
+            </if>
+        </where>
+    </sql>
+
+
+    <!-- 分页查询 -->
+    <select id="selectPage" resultType="com.code.entity.system.Dict">
+        SELECT
+            sd.`value` as statusName,
+            <include refid="BaseColumnList"/>
+        FROM
+            sys_dict t
+            LEFT JOIN sys_dict sd ON sd.`key` = t.status AND sd.type = 'system_status' AND sd.`status` = 0
+            <include refid="BaseWhere"/>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                ORDER BY t.`name`, t.order_index, t.id
+			</otherwise>
+        </choose>
+    </select>
+
+    <!-- 状态变更   -->
+    <update id="updateStatus" >
+        UPDATE sys_dict t
+        SET t.`status` = ABS( t.`status` - 1 )
+        WHERE
+            t.id = #{dictId}
+    </update>
+
+</mapper>

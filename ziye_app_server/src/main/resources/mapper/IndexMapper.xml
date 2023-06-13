@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.code.mapper.system.IndexMapper">
+
+    
+
+    <!-- 分页查询 -->
+    <select id="selectData" resultType="com.code.entity.system.Index">
+        SELECT
+            ( SELECT COUNT( t.id ) FROM pf_project t ) AS projectTotal,
+            ( SELECT COUNT( t.id ) FROM pf_talent t ) AS talentTotal,
+            ( SELECT COUNT( t.id ) FROM pf_apply t ) AS applyTotal,
+            ( SELECT COUNT( t.id ) FROM pf_apply t WHERE TO_DAYS( t.create_time ) = TO_DAYS( NOW()) ) AS todayApplyTotal,
+
+            ( SELECT COUNT( t.id ) FROM pf_apply t WHERE t.`status` = -1) AS applyNotPass,
+            ( SELECT COUNT( t.id ) FROM pf_apply t WHERE t.`status` = 0) AS unaudited,
+            ( SELECT COUNT( t.id ) FROM pf_apply t WHERE t.`status` = 1) AS applyPass,
+
+            CONCAT_WS(",",
+              ( SELECT COUNT( t.id ) FROM pf_apply t WHERE TO_DAYS( t.create_time ) = TO_DAYS( NOW() ) - 7 ),
+              ( SELECT COUNT( t.id ) FROM pf_apply t WHERE TO_DAYS( t.create_time ) = TO_DAYS( NOW() ) - 6 ),
+              ( SELECT COUNT( t.id ) FROM pf_apply t WHERE TO_DAYS( t.create_time ) = TO_DAYS( NOW() ) - 5 ),
+              ( SELECT COUNT( t.id ) FROM pf_apply t WHERE TO_DAYS( t.create_time ) = TO_DAYS( NOW() ) - 4 ),
+              ( SELECT COUNT( t.id ) FROM pf_apply t WHERE TO_DAYS( t.create_time ) = TO_DAYS( NOW() ) - 3 ),
+              ( SELECT COUNT( t.id ) FROM pf_apply t WHERE TO_DAYS( t.create_time ) = TO_DAYS( NOW() ) - 2 ),
+              ( SELECT COUNT( t.id ) FROM pf_apply t WHERE TO_DAYS( t.create_time ) = TO_DAYS( NOW() ) - 1 )
+            ) AS recentlyApply
+
+    </select>
+
+</mapper>

@@ -1,0 +1,220 @@
+.layout {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.sider-wrapper {
+  z-index: 3;
+  position: relative;
+  box-shadow: 2px 0 6px rgba(0, 21, 41, 0.35);
+
+  .logo_card {
+    height: 50px;
+    padding: 8px 16px;
+    color: #fff;
+    text-align: center;
+    vertical-align: middle;
+    overflow: hidden;
+    white-space: nowrap;
+
+    .info {
+      width: 100%;
+      padding: 0px 8px;
+      font-weight: 600;
+      vertical-align: middle;
+      transition: all 0.4s;
+    }
+  }
+
+  .menu_card {
+    width: 100%;
+    height: calc(100% - 50px);
+    overflow: auto;
+    &::-webkit-scrollbar {
+      width: 2px;
+      height: 2px;
+      background-color: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+      border-radius: 4px;
+      background-color: #eebe77;
+    }
+  }
+}
+
+.ant-layout-sider-collapsed {
+  .logo_card .info {
+    color: transparent;
+  }
+}
+
+.site-layout {
+  width: 100%;
+  height: auto;
+
+  .header {
+    width: 100%;
+    height: 88px;
+    background: unset;
+    line-height: unset;
+    padding: 0px;
+
+    .breadcrumb_info_card {
+      width: 100%;
+      height: 50px;
+      background-color: #fff;
+      box-shadow: 0 1px 4px rgb(0 21 41 / 8%);
+      z-index: 2;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .header_left {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+
+        .trigger {
+          padding: 16px 24px;
+          font-size: 18px;
+          cursor: pointer;
+          transition: color 0.3s;
+        }
+      }
+
+      .header_right {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        padding: 0px 24px;
+        font-size: 24px;
+        .anticon {
+          margin-right: 8px;
+          cursor: pointer;
+        }
+      }
+
+      .ant-avatar {
+        cursor: pointer;
+      }
+    }
+
+    .ant-tabs {
+      width: 100%;
+      height: 100%;
+      background-color: #fff;
+
+      .ant-tabs-nav {
+        margin: unset;
+
+        .ant-tabs-nav-wrap {
+          padding: 0px 16px;
+          z-index: 1;
+          position: relative;
+          border-bottom: 1px solid #d8dce5;
+          box-shadow: 0 1px 3px 0 rgb(0 0 0 / 12%), 0 0 3px 0 rgb(0 0 0 / 4%);
+
+          .ant-tabs-nav-list {
+            padding: 4px 0px;
+            box-sizing: border-box;
+            .ant-tabs-tab {
+              padding: 2px 12px;
+              border-radius: unset;
+              margin-right: 8px;
+              transition: all 0.4s;
+            }
+            .ant-tabs-tab-active {
+              border-color: #1890ff;
+              background-color: #1890ff;
+              .ant-tabs-tab-btn,
+              .ant-tabs-tab-remove {
+                color: #fff;
+              }
+              .ant-tabs-tab-remove:hover {
+                color: #1890ff;
+                background-color: #fff;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .main {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background-color: #fff;
+    padding: 16px;
+    overflow: auto;
+  }
+
+  .footer {
+    width: 100%;
+    height: 48px;
+    line-height: 48px;
+    text-align: center;
+    padding: unset;
+  }
+}
+
+.ant-menu.ant-menu-root {
+  width: 100%;
+  height: 100%;
+  user-select: none;
+
+  .ant-menu-submenu .ant-menu {
+    overflow: hidden;
+    .ant-menu-item {
+      margin: 8px 0px;
+      padding-left: 40px !important;
+    }
+  }
+}
+
+.ant-menu-submenu.ant-zoom-big-leave {
+  display: none;
+}
+
+.ant-dropdown {
+  .ant-dropdown .ant-dropdown-menu .ant-dropdown-menu-item:hover {
+    background-color: unset;
+  }
+  .ant-tabs .ant-tabs-nav {
+    margin: 0px;
+    padding: 0px 4px;
+  }
+  .dropdown_info_card {
+    width: 320px;
+    height: 200px;
+    overflow-y: auto;
+
+    .info_item {
+      width: 100%;
+      height: auto;
+      padding: 0px 4px;
+      padding-bottom: 4px;
+
+      &:hover .label {
+        color: #1890ff;
+      }
+
+      .label {
+        width: 100%;
+        padding: 4px 0px;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+      .info {
+        color: darkgrey;
+        span:not(:last-child) {
+          padding-right: 4px;
+        }
+      }
+    }
+  }
+}

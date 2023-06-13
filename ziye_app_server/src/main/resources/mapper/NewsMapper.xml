@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.code.mapper.pf.NewsMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.code.entity.pf.News">
+        <id column="id" property="newsId" />
+        <result column="title" property="title" />
+        <result column="content" property="content" />
+        <result column="status" property="status" />
+        <result column="order_index" property="orderIndex" />
+        <result column="is_top" property="isTop" />
+        <result column="create_time" property="createTime" />
+        <result column="creator" property="creator" />
+        <result column="lmt" property="lmt" />
+        <result column="modifier" property="modifier" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="BaseColumnList">
+        t.id as newsId,
+        t.cover as cover,
+        t.title as title,
+        t.subtitle as subtitle,
+        t.content as content,
+        t.`reads` as `reads`,
+        t.is_top as isTop,
+        t.status as status,
+        t.create_time as createTime,
+        t.creator as creator,
+        t.lmt as lmt,
+        t.modifier as modifier
+    </sql>
+
+    <!-- 通用查询条件 -->
+    <sql id="BaseWhere">
+        <where>
+            <if test="status != null and status != ''">
+                t.`status` = #{status}
+            </if>
+            <if test="title != null and title != ''">
+                and t.title like CONCAT('%',#{title},'%')
+            </if>
+            <if test="creatTimeFrom != null and creatTimeFrom != '' and creatTimeTo != null and creatTimeTo != ''">
+                and t.create_time BETWEEN #{creatTimeFrom} AND #{creatTimeTo}
+            </if>
+        </where>
+    </sql>
+
+    <!-- 分页查询 -->
+    <select id="selectPageList" resultType="com.code.entity.pf.News">
+        SELECT
+            sd.`value` as statusName,
+            <include refid="BaseColumnList"/>
+        FROM
+            `pf_news` as t
+            LEFT JOIN sys_dict sd ON sd.`key` = t.status AND sd.type = 'pf_news_status' AND sd.`status` = 0
+            <include refid="BaseWhere"/>
+        ORDER BY
+            t.create_time DESC
+    </select>
+
+    <!-- 查看详情 -->
+    <select id="selectById" resultType="com.code.entity.pf.News">
+        SELECT
+            sd.`value` as statusName,
+            <include refid="BaseColumnList"/>
+        FROM
+            `pf_news` as t
+            LEFT JOIN sys_dict sd ON sd.`key` = t.status AND sd.type = 'pf_news_status' AND sd.`status` = 0
+        WHERE
+            t.id=#{newsId}
+    </select>
+
+    <!-- 状态变更   -->
+    <update id="updateStatus">
+        UPDATE pf_news t
+        SET t.`status` = ABS( t.`status` - 1 )
+        WHERE
+            t.id = #{newsId}
+    </update>
+
+    <!-- 更新阅读数   -->
+    <update id="updateNewsReads">
+        UPDATE pf_news t
+        SET t.`reads` = t.`reads`+1
+        WHERE
+            t.id = #{newsId}
+    </update>
+
+</mapper>

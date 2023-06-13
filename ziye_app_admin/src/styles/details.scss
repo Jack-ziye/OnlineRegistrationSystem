@@ -1,0 +1,147 @@
+.datails_wapper {
+	width: 100%;
+	height: 100%;
+	position: relative;
+
+	.closed_btn {
+		top: 0px;
+		right: 0px;
+		position: absolute;
+	}
+}
+
+.datails_wapper .datails_card {
+	width: 100%;
+	height: auto;
+	margin-bottom: 16px;
+
+	.title_card {
+		width: 100%;
+		font-size: 24px !important;
+		font-weight: 500;
+		display: flex;
+		align-items: center;
+		margin-bottom: 8px;
+
+		.ant-btn {
+			width: unset;
+			padding: unset;
+		}
+	}
+
+	.datails_info {
+		width: 100%;
+		height: auto;
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+		grid-gap: 8px;
+		grid-auto-flow: row;
+		align-items: flex-start;
+		font-size: 16px;
+
+		.info_item {
+			width: 100%;
+			display: flex;
+			align-items: center;
+			color: #909399;
+
+			.label {
+				width: 100px;
+				height: 100%;
+				text-align: justify;
+				text-align-last: justify;
+				padding-right: 8px;
+			}
+		}
+	}
+}
+
+.datails_wapper .datails_content {
+	width: 100%;
+	min-height: 200px;
+	padding: 16px;
+	border: 1px solid #f5f7fa;
+	margin: 16px 0px;
+}
+
+.datails_wapper .chart_card {
+	width: 100%;
+	height: auto;
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+	grid-gap: 16px;
+	grid-auto-flow: row;
+	align-items: flex-start;
+	margin-bottom: 16px;
+
+	.chart_item {
+		width: 100%;
+		height: 120px;
+		border: 1px solid #e4e7ed;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		color: #409eff;
+		padding: 32px 32px 16px 32px;
+
+		.anticon {
+			font-size: 2.5rem;
+		}
+		.ant-statistic {
+			position: relative;
+			.ant-statistic-title {
+				margin: 0px;
+				margin-top: -20px;
+			}
+
+			.ant-statistic-content-value,
+			.ant-statistic-content-suffix {
+				font-size: 24px;
+			}
+		}
+	}
+}
+
+.datails_wapper .fill_card {
+	height: 200px;
+}
+
+.datails_wapper .datails_wapper .ant-table-wrapper {
+	.ant-table {
+		width: 100%;
+		height: calc(100% - 48px);
+		border-bottom: 1px solid #f0f0f0;
+
+		.ant-table-content {
+			.ant-table-thead {
+				top: 0px;
+				z-index: 1;
+				position: relative;
+				position: sticky;
+				.ant-table-cell {
+					padding: 12px 16px;
+				}
+			}
+
+			.ant-table-tbody .ant-table-cell {
+				padding: 8px 16px;
+
+				.ant-btn {
+					border: unset;
+					padding: 0px;
+					margin-right: 16px;
+				}
+			}
+		}
+	}
+
+	.ant-table-pagination.ant-pagination {
+		width: 100%;
+		height: 48px;
+		padding-top: 8px;
+		margin: 0px;
+		background-color: #fff;
+		z-index: 1;
+		position: relative;
+	}
+}

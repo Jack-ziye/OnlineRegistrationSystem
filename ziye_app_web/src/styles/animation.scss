@@ -1,0 +1,54 @@
+@media screen and (min-width: 500px) {
+  $offset: 200px;
+  $timer: 1s;
+  $delay: 0.4s;
+
+  div[z-type],
+  img[z-type="gradient"] {
+    opacity: 0;
+    transition: all $timer;
+  }
+
+  .z-animation[z-type],
+  img[z-type="gradient"] {
+    opacity: 1;
+  }
+
+  // 向左
+  div[z-type="fade-left"] {
+    transform: translateX($offset);
+    transition-delay: $delay;
+  }
+
+  .z-animation[z-type="fade-left"] {
+    transform: translateX(0px);
+  }
+
+  //向右
+  div[z-type="fade-right"] {
+    transform: translateX(-$offset);
+    transition-delay: $delay;
+  }
+
+  .z-animation[z-type="fade-right"] {
+    transform: translateX(0px);
+  }
+
+  // 向上
+  div[z-type="fade-up"] {
+    transform: translateY($offset/4);
+  }
+
+  .z-animation[z-type="fade-up"] {
+    transform: translateY(0px);
+  }
+
+  // 向下
+  div[z-type="fade-down"] {
+    transform: translateY(-$offset/4);
+  }
+
+  .z-animation[z-type="fade-down"] {
+    transform: translateY(0px);
+  }
+}

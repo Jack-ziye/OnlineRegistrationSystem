@@ -1,0 +1,130 @@
+.details_card {
+  width: 100%;
+  height: auto;
+  min-height: 100%;
+  padding: 24px 100px;
+
+  .details {
+    width: 1000px;
+    margin: auto;
+    transition: width 0.4s;
+  }
+
+  .title {
+    width: 100%;
+    font-size: 30px;
+    font-family: "宋体";
+    text-align: center;
+    padding: 24px 0px;
+    transition: all 0.4s;
+  }
+
+  .info {
+    text-align: center;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #cdd0d6;
+    transition: all 0.4s;
+
+    span {
+      padding: 0px 8px;
+      color: #909399;
+      font-size: 16px;
+    }
+  }
+
+  .content {
+    width: 100%;
+    padding: 24px;
+    margin: auto;
+    transition: padding 0.4s;
+  }
+
+  .declaration {
+    width: 100%;
+    padding: 16px;
+    border-top: 1px solid #909399;
+    border-bottom: 1px solid #909399;
+  }
+
+  .options_card {
+    width: 100%;
+    text-align: center;
+    padding: 32px 16px;
+  }
+}
+
+$width-small: 375px;
+$width-medium: 768px;
+$width-default: 1024px;
+$width-large: 1440px;
+
+@media screen and (max-width: $width-large) {
+  .details_card {
+    .details {
+      width: 800px;
+    }
+    .title {
+      font-size: 28px;
+    }
+    .content {
+      padding: 18px;
+    }
+  }
+}
+
+@media screen and (max-width: $width-default) {
+  .details_card {
+    padding: 24px 80px;
+    .details {
+      width: 100%;
+    }
+    .title {
+      font-size: 26px;
+    }
+    .content {
+      padding: 16px;
+    }
+  }
+}
+
+@media screen and (max-width: $width-medium) {
+  .details_card {
+    padding: 24px 32px;
+    .details {
+      width: 100%;
+    }
+
+    .title {
+      width: 100%;
+      font-size: 22px;
+      padding: 20px 0px;
+    }
+    .info {
+      padding-bottom: 12px;
+    }
+    .content {
+      padding: 12px;
+    }
+  }
+}
+
+@media screen and (max-width: $width-small) {
+  .details_card {
+    padding: 16px 12px;
+
+    .details {
+      width: 300px;
+    }
+    .title {
+      font-size: 20px;
+      padding: 16px 0px;
+    }
+    .info {
+      padding-bottom: 8px;
+      font-size: 14px;
+    }
+    .content {
+      padding: 8px;
+    }
+  }
+}

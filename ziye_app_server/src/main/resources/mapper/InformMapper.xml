@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.code.mapper.system.InformMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.code.entity.system.Inform">
+        <id column="id" property="informId" />
+        <result column="title" property="title" />
+        <result column="content" property="content" />
+        <result column="status" property="status" />
+        <result column="is_top" property="isTop" />
+        <result column="create_time" property="createTime" />
+        <result column="creator" property="creator" />
+        <result column="lmt" property="lmt" />
+        <result column="modifier" property="modifier" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="BaseColumnList">
+        t.id as informId,
+        t.notice_id as noticeId,
+        t.user_id as userId,
+        t.is_read as isRead,
+        t.create_time as createTime
+    </sql>
+
+    <!-- 通用查询条件 -->
+    <sql id="BaseWhere">
+        <where>
+            <if test="noticeType != null and noticeType != ''">
+                and sn.`type` = #{noticeType}
+            </if>
+            <if test="noticeId != null and noticeId != ''">
+                and t.`notice_id` = #{userId}
+            </if>
+            <if test="userId != null and userId != ''">
+                and t.`user_id` = #{userId}
+            </if>
+            <if test="creatTimeFrom != null and creatTimeFrom != '' and creatTimeTo != null and creatTimeTo != ''">
+                and t.create_time BETWEEN #{creatTimeFrom} AND #{creatTimeTo}
+            </if>
+        </where>
+    </sql>
+
+    <!-- 分页查询 -->
+    <select id="selectPageList" resultType="com.code.entity.system.Inform">
+        SELECT
+            sd.`value` as noticeTypeName,
+            sn.`title` as noticeTitle,
+            sn.`content` as noticeContent,
+            <include refid="BaseColumnList"/>
+        FROM
+            `sys_inform` as t
+            LEFT JOIN sys_notice sn ON sn.id = t.notice_id AND sn.`status` = 0
+            LEFT JOIN sys_dict sd ON sd.`key` = sn.`type` AND sd.type = 'notice_type' AND sd.`status` = 0
+            <include refid="BaseWhere"/>
+        ORDER BY
+            t.create_time DESC
+    </select>
+
+    <!-- 查看详情 -->
+    <select id="selectById" resultType="com.code.entity.system.Inform">
+        SELECT
+            sd.`value` as noticeTypeName,
+            sn.`title` as noticeTitle,
+            sn.`conent` as noticeContent,
+            <include refid="BaseColumnList"/>
+        FROM
+            `sys_inform` as t
+            LEFT JOIN sys_notice sn ON sn.id = t.notice_id AND sn.`status` = 0
+            LEFT JOIN sys_dict sd ON sd.`key` = sn.`type` AND sd.type = 'notice_type' AND sd.`status` = 0
+        WHERE
+            t.id=#{informId}
+    </select>
+
+    <delete id="deleteInformByNoticeIdAndUserId" >
+        DELETE FROM sys_inform
+        WHERE
+            notice_id = #{noticeId}
+            AND user_id = #{userId}
+    </delete>
+
+    <!-- 状态变更   -->
+    <update id="updateReadStatus">
+        UPDATE sys_inform t
+        SET t.`is_read` = #{status}
+        WHERE
+            t.id = #{informId}
+    </update>
+
+</mapper>

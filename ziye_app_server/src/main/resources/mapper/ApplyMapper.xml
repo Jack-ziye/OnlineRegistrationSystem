@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.code.mapper.pf.ApplyMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.code.entity.pf.Apply">
+        <id column="id" property="applyId" />
+        <result column="project_id" property="projectId" />
+        <result column="talent_id" property="talentId" />
+        <result column="feedback" property="feedback" />
+        <result column="status" property="status" />
+        <result column="is_top" property="isTop" />
+        <result column="create_time" property="createTime" />
+        <result column="lmt" property="lmt" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="BaseColumnList">
+        t.id as applyId,
+        t.project_id as projectId,
+        t.talent_id as talentId,
+        t.feedback as feedback,
+        t.is_top as isTop,
+        t.status as status,
+        t.create_time as createTime,
+        t.lmt as lmt
+    </sql>
+
+    <!-- 通用查询条件 -->
+    <sql id="BaseWhere">
+        <where>
+            <if test="status != null and status != ''">
+                t.`status` = #{status}
+            </if>
+            <if test="projectName != null and projectName != ''">
+                and pp.`name` like CONCAT('%',#{projectName},'%')
+            </if>
+            <if test="talentId != null and talentId != ''">
+                and t.talent_id=#{talentId}
+            </if>
+            <if test="talentName != null and talentName != ''">
+                and pt.talent_name like CONCAT('%',#{talentName},'%')
+            </if>
+            <if test="creatTimeFrom != null and creatTimeFrom != '' and creatTimeTo != null and creatTimeTo != ''">
+                and t.create_time BETWEEN #{creatTimeFrom} AND #{creatTimeTo}
+            </if>
+        </where>
+    </sql>
+
+    <!-- 分页查询 -->
+    <select id="selectPageList" resultType="com.code.entity.pf.Apply">
+        SELECT
+            sd.`value` as statusName,
+            pp.`name` as projectName,
+            pc.`name` as categoryName,
+            pt.talent_name as talentName,
+            <include refid="BaseColumnList"/>
+        FROM
+            `pf_apply` as t
+            LEFT JOIN sys_dict sd ON sd.`key` = t.status AND sd.type = 'pf_apply_status' AND sd.`status` = 0
+            LEFT JOIN `pf_project` pp ON pp.id = t.project_id
+            LEFT JOIN `pf_talent` pt ON pt.id = t.talent_id
+            LEFT JOIN `pf_category` pc ON pc.id = pp.category_id
+            <include refid="BaseWhere"/>
+        ORDER BY
+            t.create_time DESC
+    </select>
+
+    <!-- 查看详情 -->
+    <select id="selectById" resultType="com.code.entity.pf.Apply">
+        SELECT
+            sd.`value` as statusName,
+            pp.`name` as projectName,
+            pc.`name` as categoryName,
+            pt.talent_name as talentName,
+            <include refid="BaseColumnList"/>
+        FROM
+            `pf_apply` as t
+            LEFT JOIN sys_dict sd ON sd.`key` = t.status AND sd.type = 'pf_apply_status' AND sd.`status` = 0
+            LEFT JOIN `pf_project` pp ON pp.id = t.project_id
+            LEFT JOIN `pf_talent` pt ON pt.id = t.talent_id
+            LEFT JOIN `pf_category` pc ON pc.id = pp.category_id
+        WHERE
+            t.id=#{applyId}
+    </select>
+
+    <!-- 查看详情 -->
+    <select id="selectByProjectIdAndTalentId" resultType="com.code.entity.pf.Apply">
+        SELECT
+            sd.`value` as statusName,
+            pp.`name` as projectName,
+            pc.`name` as categoryName,
+            pt.talent_name as talentName,
+            <include refid="BaseColumnList"/>
+        FROM
+            `pf_apply` as t
+            LEFT JOIN sys_dict sd ON sd.`key` = t.status AND sd.type = 'pf_apply_status' AND sd.`status` = 0
+            LEFT JOIN `pf_project` pp ON pp.id = t.project_id
+            LEFT JOIN `pf_talent` pt ON pt.id = t.talent_id
+            LEFT JOIN `pf_category` pc ON pc.id = pp.category_id
+        WHERE
+            t.project_id=#{projectId} AND t.talent_id=#{talentId}
+    </select>
+
+    <!-- 状态变更   -->
+    <update id="updateStatus">
+        UPDATE pf_apply t SET t.`status` = 1 WHERE t.id = #{applyId} AND t.`status` = 0
+    </update>
+
+</mapper>

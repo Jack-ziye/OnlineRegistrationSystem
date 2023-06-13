@@ -1,0 +1,266 @@
+.sign-up_card {
+  width: 100%;
+  height: auto;
+  min-height: calc(100% - 100px);
+  background-color: #f5f6f8;
+
+  .ant-carousel {
+    width: 100%;
+    overflow: hidden;
+
+    .ant-image-img {
+      width: 100%;
+      aspect-ratio: 5/1;
+      object-fit: cover;
+    }
+  }
+
+  .sign-up_main_card {
+    width: 100%;
+    height: auto;
+    padding: 24px 64px;
+    transition: all 0.4s;
+  }
+}
+
+.sign-up_card .options_card {
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+  position: relative;
+  transition: all 0.4s;
+  background-color: #fff;
+
+  .search_card {
+    width: 100%;
+    height: auto;
+    padding: 16px;
+    padding-bottom: 0px;
+    transition: all 0.4s;
+    .ant-input,
+    .ant-input-group-addon {
+      border-radius: 0px;
+    }
+  }
+
+  .condition_card {
+    width: 100%;
+    max-height: 0px;
+    overflow: hidden;
+    position: relative;
+    padding: 0px 16px;
+    opacity: 0;
+    transition: all 0.4s;
+
+    .ant-form .ant-form-item {
+      user-select: none;
+      margin-bottom: 16px;
+      transition: all 0.4s;
+
+      .ant-form-item-label {
+        label {
+          display: block;
+          width: 80px;
+          line-height: 32px;
+          text-align: justify;
+          text-align-last: justify;
+          padding: 0px 12px;
+          margin-right: 8px;
+
+          &::after {
+            content: none;
+          }
+        }
+      }
+
+      .ant-form-item-control-input-content {
+        .ant-radio-button-wrapper {
+          padding: 0px 16px;
+          border-radius: 0px;
+          // border-color: #fff;
+        }
+      }
+    }
+  }
+
+  .collapse_btn {
+    width: 100%;
+    height: auto;
+    border-radius: 0px;
+    transition: all 0.4s;
+    text-align: center;
+
+    .ant-btn {
+      width: 60px;
+    }
+
+    .anticon {
+      transform: rotate(0);
+      transition: all 0.4s;
+    }
+  }
+}
+
+.sign-up_card .options_collapse {
+  .condition_card {
+    max-height: 200px;
+    opacity: 1;
+    padding-top: 16px;
+  }
+  .collapse_btn .anticon {
+    transform: rotate(180deg);
+  }
+}
+
+.sign-up_card .content_card {
+  width: 100%;
+  height: auto;
+  position: relative;
+  margin-top: 24px;
+
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 24px;
+
+  .ant-empty {
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    padding: 24px;
+  }
+
+  .card_item {
+    width: auto;
+    height: auto;
+    overflow: hidden;
+    cursor: default;
+
+    .empty_card {
+      width: 100%;
+      aspect-ratio: 5/3;
+      border: 1px dashed #909399;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      letter-spacing: 2px;
+      padding: 24px;
+      border-radius: 8px;
+    }
+
+    .ant-image {
+      width: 100%;
+      height: auto;
+      border-radius: 4px;
+      overflow: hidden;
+      border: 1px solid #909399;
+
+      .ant-image-img {
+        width: 100%;
+        aspect-ratio: 5/3;
+        object-fit: cover;
+        user-select: none;
+      }
+    }
+
+    .info {
+      width: 100%;
+      height: auto;
+      padding: 8px 0;
+      padding-bottom: 8px;
+
+      .title {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .other_info {
+        color: #909399;
+      }
+    }
+
+    &:hover .title {
+      color: #4096ff;
+    }
+  }
+
+  .loadmore {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding-bottom: 56px;
+  }
+}
+
+.sign-up_card .pagination_card {
+  width: 100%;
+  height: auto;
+  text-align: center;
+  padding: 24px;
+}
+
+$width-small: 375px;
+$width-medium: 768px;
+$width-default: 1024px;
+$width-large: 1440px;
+
+@media screen and (max-width: $width-large) {
+  .sign-up_card {
+    .sign-up_main_card {
+      padding: 24px 48px;
+
+      .content_card {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $width-medium) {
+  .sign-up_card .sign-up_main_card {
+    padding: 16px;
+    .options_card {
+      .search_card {
+        padding: 0px;
+      }
+      .condition_card .ant-form .ant-form-item {
+        margin-bottom: 8px;
+        .ant-form-item-label label {
+          width: 40px;
+          text-align: left;
+          text-align-last: unset;
+          padding: 0px;
+        }
+
+        .ant-form-item-control .ant-radio-group .ant-radio-button-wrapper {
+          padding: 0px 8px;
+        }
+      }
+    }
+    .content_card {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .sign-up_card .options_collapse {
+    .condition_card {
+      padding: 16px;
+      max-height: 400px;
+    }
+  }
+}
+
+@media screen and (max-width: $width-small) {
+  .sign-up_card {
+    .sign-up_main_card {
+      padding: 16px;
+
+      .content_card {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  }
+}

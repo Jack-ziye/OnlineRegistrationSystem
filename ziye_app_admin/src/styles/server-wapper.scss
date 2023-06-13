@@ -1,0 +1,109 @@
+.server-wapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  grid-gap: 16px;
+  position: relative;
+}
+
+.header-wapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  grid-gap: 16px;
+  grid-auto-flow: row;
+
+  .chart_card {
+    width: 100%;
+    height: 100%;
+    min-height: 120px;
+    background-color: #fff;
+    box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
+    padding: 16px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+
+    .value {
+      width: 100%;
+      font-size: 3.5em;
+      font-weight: 600;
+    }
+
+    .label {
+      width: 100%;
+      color: #909399;
+    }
+  }
+}
+
+.card-wapper {
+  width: 100%;
+  height: auto;
+  background-color: #fff;
+  box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
+
+  .title {
+    width: 100%;
+    padding: 8px 16px;
+    font-size: 18px;
+    font-weight: 600;
+    border-bottom: 1px solid #dcdfe6;
+  }
+
+  .progress_card {
+    width: 100%;
+    height: auto;
+    padding: 16px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    grid-gap: 16px;
+    grid-auto-flow: row;
+    text-align: center;
+    margin-top: 16px;
+
+    .progress_card-item {
+      padding: 8px;
+      .label {
+        padding: 8px;
+      }
+    }
+  }
+
+  .chart_card {
+    width: 100%;
+    height: auto;
+    padding: 16px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    grid-gap: 16px;
+    // grid-auto-flow: row;
+
+    .chart_card-item {
+      width: 100%;
+      height: auto;
+
+      .label {
+        width: 100%;
+        padding: 8px;
+        text-align: center;
+        background-color: #ebeef5;
+      }
+
+      .content {
+        width: 100%;
+        height: auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 16px;
+        padding: 32px 16px;
+        background-color: #f2f6fc;
+        .ant-statistic {
+          width: 100%;
+          text-align: center;
+        }
+      }
+    }
+  }
+}

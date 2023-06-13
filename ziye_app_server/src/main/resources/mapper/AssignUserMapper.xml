@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.code.mapper.system.AssignUserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.code.entity.system.SysUser">
+        <id column="id" property="id" />
+        <result column="username" property="username" />
+        <result column="password" property="password" />
+        <result column="mobile" property="mobile" />
+        <result column="email" property="email" />
+        <result column="status" property="status" />
+        <result column="create_time" property="createTime" />
+        <result column="creator" property="creator" />
+        <result column="lmt" property="lmt" />
+        <result column="modifier" property="modifier" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="BaseColumnList">
+        t.id as userId,
+        t.nickname as nickName,
+        t.username as username,
+        t.password as password,
+        t.mobile as mobile,
+        t.email as email,
+        t.status as status,
+        t.create_time as createTime,
+        t.creator as creator,
+        t.lmt as lmt,
+        t.modifier as modifier
+    </sql>
+
+    <!-- 通用查询条件 -->
+    <sql id="BaseWhere">
+        <where>
+            t.id != 1
+            <if test="type == 0">
+                and su.id IS NULL
+            </if>
+            <if test="type == 1">
+                and su.id IS NOT NULL
+            </if>
+            <if test="roleId != null and roleId != ''">
+                and su.role_id = #{roleId}
+            </if>
+            <if test="username != null and username != ''">
+                and t.username like CONCAT('%',#{username},'%')
+            </if>
+            <if test="mobile != null and mobile != ''">
+                and t.mobile like CONCAT('%',#{mobile},'%')
+            </if>
+        </where>
+    </sql>
+
+    <!-- 分页查询 -->
+    <select id="selectPageList" resultType="com.code.entity.system.SysUser">
+        SELECT
+            sd.`value` as statusName,
+            su.role_id AS roleId,
+            su.role_id AS roleId,
+            sr.`name` AS roleName,
+            <include refid="BaseColumnList"/>
+        FROM sys_user t
+            LEFT JOIN role_user su ON su.user_id = t.id
+            LEFT JOIN sys_role sr ON sr.id = su.role_id
+            LEFT JOIN sys_dict sd ON sd.`key` = t.status AND sd.type = 'system_status' AND sd.`status` = 0
+            <include refid="BaseWhere"/>
+        ORDER BY
+            t.create_time DESC
+    </select>
+
+    <delete id="deleteAssignUser" >
+        DELETE FROM role_user WHERE user_id = #{userId}
+    </delete>
+
+    <insert id="insertAssignUser" >
+        INSERT INTO role_user(id, role_id, user_id) VALUES(null, #{roleId}, #{userId})
+    </insert>
+
+</mapper>
